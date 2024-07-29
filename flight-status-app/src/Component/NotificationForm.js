@@ -29,7 +29,7 @@ const NotificationForm = () => {
 
     useEffect(() => {
         fetchFlights();
-        requestPermissions();
+        // requestPermissions();
     }, []);
 
     const addNotification = async () => {
@@ -50,21 +50,21 @@ const NotificationForm = () => {
         }
     };
 
-    async function requestPermissions() {
-        try {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                const token = await getToken(messaging, { vapidKey: process.env.REACT_APP_VAPID_KEY });
-                setToken(token); // Save token in state
-                console.log("Token generated:", token);
-            } else if (permission === 'denied') {
-                setError('Notification permission denied');
-            }
-        } catch (error) {
-            setError('Error requesting notification permission or generating token');
-            console.error('Error requesting notification permission or generating token:', error);
-        }
-    }
+    // async function requestPermissions() {
+    //     try {
+    //         const permission = await Notification.requestPermission();
+    //         if (permission === 'granted') {
+    //             const token = await getToken(messaging, { vapidKey: process.env.REACT_APP_VAPID_KEY });
+    //             setToken(token);
+    //             console.log("Token generated:", token);
+    //         } else if (permission === 'denied') {
+    //             setError('Notification permission denied');
+    //         }
+    //     } catch (error) {
+    //         setError('Error requesting notification permission or generating token');
+    //         console.error('Error requesting notification permission or generating token:', error);
+    //     }
+    // }
 
     return (
         <div style={styles.container}>

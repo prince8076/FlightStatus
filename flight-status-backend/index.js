@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const connectDB = require('./config/db'); // Adjust path as needed
-const flightRoutes = require('./routes/CURD'); // Adjust path as needed
+const connectDB = require('./config/db');
+const flightRoutes = require('./routes/CURD');
 const userRoutes = require('./routes/users');
 const cors = require('cors');
 
@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
-// Use flight routes
+
 app.use('/api', flightRoutes);
 app.use('/api/users', userRoutes);
 

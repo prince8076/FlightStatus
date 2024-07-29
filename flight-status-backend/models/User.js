@@ -1,5 +1,3 @@
-// models/User.js
-
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -7,7 +5,11 @@ const UserSchema = new mongoose.Schema({
     method: { type: String, required: true },
     recipient: { type: String, required: true },
     timestamp: { type: Date, default: Date.now },
-    token: { type: String }
+    token: { type: String },
+    email: { type: String, sparse: true }
 });
+
+UserSchema.index({ email: 1 }, { unique: true, sparse: true });
+
 
 module.exports = mongoose.model('User', UserSchema);
