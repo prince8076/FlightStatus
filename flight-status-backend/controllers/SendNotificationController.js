@@ -2,17 +2,16 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-
+const CLIENT_ID = "844628407345-t13lt4ln9j1qgnij66qllkmu0m5ns0el.apps.googleusercontent.com"
+const CLIENT_SECRET = "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"
+const REDIRECT_URI = "https://developers.google.com/oauthplayground"
+const REFRESH_TOKEN = '1//0415R8vtN1Q_FCgYIARAAGAQSNgF-L9IrigumHwO_u0tYjXox0xw4KuctVGWRuq_a95tX_Xl-ZK8SwKtrgtkHFObVazv4Vf_K_A';
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-async function sendMail() {
+async function sendMail(to, subject, text, html) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transporter = nodemailer.createTransport({
@@ -26,12 +25,13 @@ async function sendMail() {
         accessToken: accessToken
       }
     });
+
     const mailOptions = {
-      from: 'Prince Sen <konikasingh349@gmail.com>',
-      to: 'rahulsingh00c@gmail.com',
-      subject: 'Sending Email using Node.js',
-      text: 'That was easy!',
-      html: '<h1>That was easy!</h1>'
+      from: 'Flight Notification <konikasingh349@gmail.com>',
+      to,
+      subject,
+      text,
+      html
     };
 
     const result = await transporter.sendMail(mailOptions);
@@ -41,4 +41,5 @@ async function sendMail() {
     throw error;
   }
 }
+
 module.exports = sendMail;

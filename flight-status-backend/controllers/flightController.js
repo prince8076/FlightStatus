@@ -9,7 +9,7 @@ exports.getFlights = async (req, res) => {
         res.json(flights);
     } catch (error) {
         console.error('Error fetching flights:', error.message);
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).send('Server Error');
     }
 };
 
@@ -17,11 +17,11 @@ exports.getFlights = async (req, res) => {
 exports.getFlightById = async (req, res) => {
     try {
         const flight = await Flight.findOne({ flight_id: req.params.id });
-        if (!flight) return res.status(404).json({ error: 'Flight not found' });
+        if (!flight) return res.status(404).send('Flight not found');
         res.json(flight);
     } catch (error) {
         console.error('Error fetching flight:', error.message);
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).send('Server Error');
     }
 };
 
@@ -47,11 +47,15 @@ exports.addFlight = async (req, res) => {
         // Send notifications to all users associated with the flight_id
         const users = await User.find({ flight_id });
         for (const user of users) {
-            await sendMail(user.recipient, `Your flight ${flight_id} is ${status}. Departure gate: ${departure_gate}.`);
+            try {
+                await sendMail(user.email, `Your flight ${flight_id} is ${status}`, `Departure gate: ${departure_gate}.`, `<p>Your flight <strong>${flight_id}</strong> is ${status}. Departure gate: ${departure_gate}.</p>`);
+            } catch (mailError) {
+                console.error('Error sending email:', mailError.message);
+            }
         }
     } catch (error) {
         console.error('Error adding flight:', error.message);
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).send('Server Error');
     }
 };
 
@@ -61,22 +65,26 @@ exports.updateFlight = async (req, res) => {
     console.log('Request body:', req.body); // Log the incoming request body
 
     try {
-        const flight = await Flight.findOneAndUpdate(
-            { flight_id: req.params.id },
+        const flight = await Flight.findByIdAndUpdate(
+            req.params.id,
             req.body,
             { new: true, runValidators: true }
         );
-        if (!flight) return res.status(404).json({ error: 'Flight not found' });
+        if (!flight) return res.status(404).send('Flight not found');
         res.json(flight);
 
         // Send notifications to all users associated with the flight_id
         const users = await User.find({ flight_id: req.params.id });
         for (const user of users) {
-            await sendMail(user.recipient, `Your flight ${req.params.id} has been updated. Status: ${req.body.status}. Departure gate: ${req.body.departure_gate}.`);
+            try {
+                await sendMail(user.email, `Your flight ${req.params.id} has been updated`, `Status: ${req.body.status}. Departure gate: ${req.body.departure_gate}.`, `<p>Your flight <strong>${req.params.id}</strong> has been updated. Status: ${req.body.status}. Departure gate: ${req.body.departure_gate}.</p>`);
+            } catch (mailError) {
+                console.error('Error sending email:', mailError.message);
+            }
         }
     } catch (error) {
         console.error('Error updating flight:', error.message);
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).send('Server Error');
     }
 };
 
@@ -87,11 +95,11 @@ exports.deleteFlight = async (req, res) => {
         const flight = await Flight.findOneAndDelete({ flight_id: req.params.id });
         if (!flight) {
             console.log('Flight not found'); // Debugging line
-            return res.status(404).json({ error: 'Flight not found' });
+            return res.status(404).send('Flight not found');
         }
         res.json({ msg: 'Flight removed' });
     } catch (error) {
         console.error('Error deleting flight:', error.message);
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).send('Server Error');
     }
 };

@@ -44,11 +44,18 @@ const NotificationForm = () => {
             });
             setSuccessMessage('Notification added successfully!');
             setError('');
+
+            // Reset form fields
+            setFlightId(null);
+            setMethod('');
+            setRecipient('');
+            setToken('');
         } catch (error) {
             setError('Failed to add notification.');
             console.error('Error adding notification:', error);
         }
     };
+
 
     // async function requestPermissions() {
     //     try {
