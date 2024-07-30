@@ -22,16 +22,50 @@ const FlightStatus = () => {
         fetchFlightData();
     }, []);
 
+    const containerStyle = {
+        width: '80%',
+        margin: '0 auto',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden',
+        padding: '20px'
+    };
+
+    const headingStyle = {
+        textAlign: 'center',
+        color: '#4B0082',
+        margin: '20px 0',
+        fontFamily: 'Roboto, sans-serif',
+    };
+
+    const buttonStyle = {
+        display: 'block',
+        width: 'max-content',
+        margin: '20px auto',
+        padding: '10px 20px',
+        backgroundColor: '#007bff',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        textAlign: 'center',
+        textDecoration: 'none',
+        transition: 'background-color 0.3s',
+    };
+
     const tableStyle = {
         width: '100%',
         borderCollapse: 'collapse',
         margin: '20px 0',
+        fontFamily: 'Roboto, sans-serif',
     };
 
     const thStyle = {
         padding: '12px',
         textAlign: 'left',
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#4B0082',
         color: 'white',
     };
 
@@ -41,29 +75,20 @@ const FlightStatus = () => {
         border: '1px solid #ddd',
     };
 
-    const headingStyle = {
-        textAlign: 'center',
-        margin: '20px 0',
+    const trStyle = {
+        borderBottom: '1px solid #ddd',
     };
 
-    const buttonStyle = {
-        display: 'block',
-        margin: '20px auto',
-        padding: '10px 20px',
-        backgroundColor: '#007bff',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        textAlign: 'center',
-        fontSize: '16px',
-        textDecoration: 'none',
+    const trHoverStyle = {
+        backgroundColor: '#f2f2f2',
     };
 
     return (
-        <div className="flight-status">
+        <div className="flight-status" style={containerStyle}>
             <h1 style={headingStyle}>Flight Status</h1>
-            <Link to="/notifications" style={buttonStyle}>Stay Updated - Subscribe for Notifications</Link>
+            <Link to="/notifications" style={buttonStyle}>
+                Stay Updated - Subscribe for Notifications
+            </Link>
             <table style={tableStyle}>
                 <thead>
                     <tr>
@@ -80,7 +105,7 @@ const FlightStatus = () => {
                 </thead>
                 <tbody>
                     {flights.map((flight) => (
-                        <tr key={flight._id}>
+                        <tr key={flight._id} style={trStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = trHoverStyle.backgroundColor} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}>
                             <td style={tdStyle}>{flight.flight_id}</td>
                             <td style={tdStyle}>{flight.airline}</td>
                             <td style={tdStyle}>{flight.status}</td>

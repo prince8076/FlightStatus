@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-// import { messaging } from '../firebase';
-// import { getToken } from 'firebase/messaging';
 
 const NotificationForm = () => {
     const [flightId, setFlightId] = useState(null);
@@ -54,10 +52,10 @@ const NotificationForm = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <h1 style={styles.header}>Add Flight Notification</h1>
-            {error && <p style={styles.error}>{error}</p>}
-            {successMessage && <p style={styles.success}>{successMessage}</p>}
+        <div style={containerStyle}>
+            <h1 style={headingStyle}>Add Flight Notification</h1>
+            {error && <p style={errorStyle}>{error}</p>}
+            {successMessage && <p style={successStyle}>{successMessage}</p>}
             <Select
                 options={flights}
                 placeholder="Select Flight ID"
@@ -68,7 +66,7 @@ const NotificationForm = () => {
             <select
                 value={method}
                 onChange={(e) => setMethod(e.target.value)}
-                style={styles.input}
+                style={inputStyle}
             >
                 <option value="">Select Notification Method</option>
                 <option value="Email">Email</option>
@@ -81,7 +79,7 @@ const NotificationForm = () => {
                     placeholder="Recipient Email"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
-                    style={styles.input}
+                    style={inputStyle}
                 />
             )}
             {method === 'Phone' && (
@@ -90,7 +88,7 @@ const NotificationForm = () => {
                     placeholder="Recipient Phone Number"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
-                    style={styles.input}
+                    style={inputStyle}
                 />
             )}
             {method === 'App' && (
@@ -99,72 +97,78 @@ const NotificationForm = () => {
                     placeholder="Recipient App ID"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
-                    style={styles.input}
+                    style={inputStyle}
                 />
             )}
-            <button onClick={addNotification} style={styles.button}>Add Notification</button>
+            <button onClick={addNotification} style={buttonStyle}>Add Notification</button>
         </div>
     );
 };
 
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        maxWidth: '400px',
-        margin: '0 auto',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        backgroundColor: '#f9f9f9',
-    },
-    header: {
-        marginBottom: '20px',
-        fontSize: '24px',
-        color: '#333',
-    },
-    input: {
-        marginBottom: '10px',
-        padding: '10px',
-        width: '100%',
-        borderRadius: '4px',
-        border: '1px solid #ddd',
-        fontSize: '16px',
-    },
-    button: {
-        padding: '10px 20px',
-        backgroundColor: '#007bff',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '16px',
-    },
-    error: {
-        color: 'red',
-        marginBottom: '10px',
-    },
-    success: {
-        color: 'green',
-        marginBottom: '10px',
-    },
+// Styles adapted from FlightStatus component
+const containerStyle = {
+    width: '80%',
+    margin: '0 auto',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+    padding: '20px'
+};
+
+const headingStyle = {
+    textAlign: 'center',
+    color: '#4B0082',
+    margin: '20px 0',
+    fontFamily: 'Roboto, sans-serif',
+    fontSize: '24px'
+};
+
+const inputStyle = {
+    marginBottom: '10px',
+    padding: '10px',
+    width: '100%',
+    borderRadius: '4px',
+    border: '1px solid #ddd',
+    fontSize: '16px'
+};
+
+const buttonStyle = {
+    padding: '10px 20px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    transition: 'background-color 0.3s',
+};
+
+const errorStyle = {
+    color: 'red',
+    marginBottom: '10px'
+};
+
+const successStyle = {
+    color: 'green',
+    marginBottom: '10px'
 };
 
 const customSelectStyles = {
     container: (provided) => ({
         ...provided,
         marginBottom: '10px',
-        width: '100%',
+        width: '100%'
     }),
     control: (provided) => ({
         ...provided,
         padding: '5px',
         borderRadius: '4px',
         border: '1px solid #ddd',
-        fontSize: '16px',
-    }),
+        fontSize: '16px'
+    })
 };
 
 export default NotificationForm;
