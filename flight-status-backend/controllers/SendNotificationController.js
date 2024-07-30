@@ -49,7 +49,7 @@ async function sendMail(users, flight) {
         to: user.recipient,
         subject: 'Flight Update Notification',
         text: generateMessage(flight),
-        html: generateMessage(flight)
+
       };
 
       return transporter.sendMail(mailOptions);
