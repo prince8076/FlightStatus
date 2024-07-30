@@ -17,7 +17,7 @@ const NotificationForm = () => {
         try {
             const response = await axios.get('http://localhost:5000/api/flights');
             const flightOptions = response.data.map(flight => ({
-                value: flight._id,
+                value: flight.flight_id,
                 label: `Flight ${flight.flight_id}`
             }));
             setFlights(flightOptions);
@@ -29,14 +29,13 @@ const NotificationForm = () => {
 
     useEffect(() => {
         fetchFlights();
-        // requestPermissions();
     }, []);
 
     const addNotification = async () => {
         try {
             const timestamp = new Date().toISOString();
             await axios.post('http://localhost:5000/api/users', {
-                flight_id: flightId?.value,
+                flight_id: flightId.value,
                 method,
                 recipient,
                 timestamp,
@@ -44,27 +43,15 @@ const NotificationForm = () => {
             });
             setSuccessMessage('Notification added successfully!');
             setError('');
+            setFlightId(null);
+            setMethod('');
+            setRecipient('');
+            setToken('');
         } catch (error) {
             setError('Failed to add notification.');
             console.error('Error adding notification:', error);
         }
     };
-
-    // async function requestPermissions() {
-    //     try {
-    //         const permission = await Notification.requestPermission();
-    //         if (permission === 'granted') {
-    //             const token = await getToken(messaging, { vapidKey: process.env.REACT_APP_VAPID_KEY });
-    //             setToken(token);
-    //             console.log("Token generated:", token);
-    //         } else if (permission === 'denied') {
-    //             setError('Notification permission denied');
-    //         }
-    //     } catch (error) {
-    //         setError('Error requesting notification permission or generating token');
-    //         console.error('Error requesting notification permission or generating token:', error);
-    //     }
-    // }
 
     return (
         <div style={styles.container}>
