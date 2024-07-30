@@ -41,8 +41,6 @@ exports.addFlight = async (req, res) => {
         });
         await newFlight.save();
         res.status(201).json(newFlight);
-
-        // Send notifications if needed, modify if necessary
     } catch (error) {
         console.error('Error adding flight:', error.message);
         res.status(500).send('Server Error');
@@ -68,7 +66,7 @@ exports.updateFlight = async (req, res) => {
 
         // Send notifications to users
         if (users.length > 0) {
-            await sendMail(users); // Ensure sendMail can handle an array of users
+            await sendMail(users, flight); // Pass flight details to sendMail
         }
 
         // Send the updated flight and users in the response

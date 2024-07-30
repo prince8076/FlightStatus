@@ -57,7 +57,7 @@ const FlightStatus = () => {
         cursor: 'pointer',
         textAlign: 'center',
         fontSize: '16px',
-        textDecoration: 'none', // For Link component
+        textDecoration: 'none',
     };
 
     return (

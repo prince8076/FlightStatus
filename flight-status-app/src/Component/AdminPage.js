@@ -31,7 +31,7 @@ const AdminPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form data:', formData); // Log form data before sending
+        console.log('Form data:', formData);
 
         try {
             const response = await fetch(`http://localhost:5000/api/flights${editId ? `/${editId}` : ''}`, {

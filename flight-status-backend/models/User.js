@@ -15,15 +15,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function (value) {
-                // Add validation for recipient based on the method
                 if (this.method === 'Email') {
-                    // Validate email format
                     return /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value);
                 } else if (this.method === 'Phone') {
-                    // Validate phone number format (simple example)
                     return /^\+?\d{10,15}$/.test(value);
                 } else if (this.method === 'App') {
-                    // Validate app ID format (example)
                     return /^[a-zA-Z0-9-_]{5,20}$/.test(value);
                 }
                 return false;

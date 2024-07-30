@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Flight = require('../models/flight');
 
-// Route to get all flights
 router.get('/', async (req, res) => {
     try {
         const flights = await Flight.find();

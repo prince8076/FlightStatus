@@ -9,7 +9,25 @@ const REFRESH_TOKEN = "1//04Tp-b7GNzW21CgYIARAAGAQSNgF-L9Ir_RbpkWlu68RP5H6VOzefC
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-async function sendMail(users) {
+
+function generateMessage(flight) {
+  return `Dear user,
+
+Your flight ${flight.flight_id} has been updated.
+
+Airline: ${flight.airline}
+Status: ${flight.status}
+Departure Gate: ${flight.departure_gate}
+Arrival Gate: ${flight.arrival_gate}
+Scheduled Departure: ${flight.scheduled_departure}
+Actual Departure: ${flight.actual_departure || 'N/A'}
+Scheduled Arrival: ${flight.scheduled_arrival}
+Actual Arrival: ${flight.actual_arrival || 'N/A'}
+
+Thank you for choosing our service.`;
+}
+
+async function sendMail(users, flight) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transporter = nodemailer.createTransport({
@@ -30,7 +48,8 @@ async function sendMail(users) {
         from: 'Prince Sen <konikasingh349@gmail.com>',
         to: user.recipient,
         subject: 'Flight Update Notification',
-        text: `Dear user, your flight ${user.flight_id} has been updated.`
+        text: generateMessage(flight),
+        html: generateMessage(flight)
       };
 
       return transporter.sendMail(mailOptions);
