@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FlightStatus = () => {
     const [flights, setFlights] = useState([]);
+    const navigate = useNavigate(); // Hook for navigation
 
     const fetchFlightData = async () => {
         try {
@@ -24,19 +25,23 @@ const FlightStatus = () => {
 
     const containerStyle = {
         width: '80%',
-        margin: '0 auto',
-        backgroundColor: '#fff',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        margin: '50px auto',
+        padding: '20px',
+        backgroundColor: '#262626',
+        borderRadius: '10px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
         overflow: 'hidden',
-        padding: '20px'
     };
 
     const headingStyle = {
         textAlign: 'center',
-        color: '#4B0082',
-        margin: '20px 0',
-        fontFamily: 'Roboto, sans-serif',
+        color: '#ffffff',
+        margin: '0',
+        padding: '20px 0',
+        fontSize: '36px',
+        fontWeight: '700',
+        letterSpacing: '1.5px',
+        fontFamily: 'Poppins, sans-serif',
     };
 
     const buttonStyle = {
@@ -45,50 +50,67 @@ const FlightStatus = () => {
         margin: '20px auto',
         padding: '10px 20px',
         backgroundColor: '#007bff',
-        color: '#fff',
+        color: '#ffffff',
         border: 'none',
-        borderRadius: '4px',
+        borderRadius: '5px',
         cursor: 'pointer',
-        fontSize: '16px',
+        fontSize: '18px',
         textAlign: 'center',
         textDecoration: 'none',
         transition: 'background-color 0.3s',
     };
 
+    const buttonHoverStyle = {
+        backgroundColor: '#0056b3',
+    };
+
     const tableStyle = {
         width: '100%',
         borderCollapse: 'collapse',
-        margin: '20px 0',
-        fontFamily: 'Roboto, sans-serif',
+        marginTop: '20px',
     };
 
     const thStyle = {
-        padding: '12px',
-        textAlign: 'left',
-        backgroundColor: '#4B0082',
-        color: 'white',
+        padding: '12px 15px',
+        textAlign: 'center',
+        backgroundColor: '#333',
+        color: '#ffffff',
+        fontWeight: 'bold',
     };
 
     const tdStyle = {
-        padding: '8px',
+        padding: '12px 15px',
         textAlign: 'center',
-        border: '1px solid #ddd',
+        backgroundColor: '#1f1f1f',
+        color: '#ffffff',
+        border: '1px solid #555',
     };
 
     const trStyle = {
-        borderBottom: '1px solid #ddd',
+        transition: 'background-color 0.3s',
     };
 
     const trHoverStyle = {
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#333',
     };
 
     return (
         <div className="flight-status" style={containerStyle}>
             <h1 style={headingStyle}>Flight Status</h1>
-            <Link to="/notifications" style={buttonStyle}>
+            <Link
+                to="/notifications"
+                style={buttonStyle}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+            >
                 Stay Updated - Subscribe for Notifications
             </Link>
+            <button
+                style={{ ...buttonStyle, marginTop: '10px' }} // Adding some space between buttons
+                onClick={() => navigate('/search')}
+            >
+                Search Your Flight
+            </button>
             <table style={tableStyle}>
                 <thead>
                     <tr>
@@ -105,7 +127,12 @@ const FlightStatus = () => {
                 </thead>
                 <tbody>
                     {flights.map((flight) => (
-                        <tr key={flight._id} style={trStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = trHoverStyle.backgroundColor} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}>
+                        <tr
+                            key={flight._id}
+                            style={trStyle}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = trHoverStyle.backgroundColor}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
+                        >
                             <td style={tdStyle}>{flight.flight_id}</td>
                             <td style={tdStyle}>{flight.airline}</td>
                             <td style={tdStyle}>{flight.status}</td>
