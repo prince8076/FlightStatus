@@ -151,7 +151,7 @@ const AdminPage = () => {
             borderRadius: '4px'
         },
         button: {
-            backgroundColor: '#4CAF50',
+            backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
             padding: '10px 20px',
@@ -177,7 +177,7 @@ const AdminPage = () => {
         },
         th: {
             padding: '12px',
-            backgroundColor: '#4CAF50',
+            backgroundColor: '#007bff',
             color: 'white'
         },
         td: {
